@@ -8,9 +8,9 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg flex" style="min-height:400px">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg flex" style="min-height:400px; max-height:600px">
                     <!-- list users -->
-                    <div class="w-3/12 bg-gray-200 bg-opacity-25 border-r border-gray-200">
+                    <div class="w-3/12 bg-gray-200 bg-opacity-25 border-r border-gray-200 overflow-auto overflow-y-scroll">
                         <ul>
                             <li class="p-6 text-lg text-gray-600 leading-7 font-semibold border-b border-gray-200 hover:bg-gray-200 hover:bg-opacity-50 hover:cursor-pointer">
                                 <p class="flex items-center">
@@ -30,7 +30,7 @@
                     <!-- box message -->
                     <div class="w-9/12 flex flex-col justify-between">
                         <!-- message -->
-                        <div class="w-full p-6 flex flex-col">
+                        <div class="w-full p-6 flex flex-col overflow-y-scroll">
                             <div class="w-full mb-3 text-right">
                                 <p class="inline-block p-2 rounded-md messageFromMe" style="max-width:75%">
                                     Olá
@@ -46,10 +46,14 @@
                             </div>
                         </div>
 
-                        <form class="w-full bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200">
-                            <input type="text">
-                            <button>Enviar</button>
-                        </form>
+                        <div class="w-full bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200">
+                            <form>
+                                <div class="flex rounded-md overflow-hidden border border-gray-300">
+                                    <input type="text" class="flex-1 px-4 py-2 text-sm focus:outline-none">
+                                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2">Enviar</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,13 +70,3 @@
         },
     }
 </script>
-
-<style>
-.messageFromMe {
-    @apply bg-indigo-300 bg-opacity-25;
-}
-
-.messageToMe {
-    @apply bg-gray-300 bg-opacity-25;
-}
-</style>

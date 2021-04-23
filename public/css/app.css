@@ -33405,6 +33405,18 @@ select {
   --tw-backdrop-sepia: sepia(100%);
 }
 
+.messageFromMe {
+  --tw-bg-opacity: 1;
+  background-color: rgba(165, 180, 252, var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.25;
+}
+
+.messageToMe {
+  --tw-bg-opacity: 1;
+  background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.25;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
