@@ -12,15 +12,11 @@
                     <!-- list users -->
                     <div class="w-3/12 bg-gray-200 bg-opacity-25 border-r border-gray-200 overflow-auto overflow-y-scroll">
                         <ul>
-                            <li class="p-6 text-lg text-gray-600 leading-7 font-semibold border-b border-gray-200 hover:bg-gray-200 hover:bg-opacity-50 hover:cursor-pointer">
+                            <li v-for="user in users" :key="user.id"
+                                @click="() => { loadMessages(user.id) }"
+                                class="p-6 text-lg text-gray-600 leading-7 font-semibold border-b border-gray-200 hover:bg-gray-200 hover:bg-opacity-50 hover:cursor-pointer">
                                 <p class="flex items-center">
-                                    Robson V. Leite
-                                    <span class="ml-2 w-2 h-2 bg-blue-500 rounded-full"></span>
-                                </p>
-                            </li>
-                            <li class="p-6 text-lg text-gray-600 leading-7 font-semibold border-b border-gray-200 hover:bg-gray-200 hover:bg-opacity-50 hover:cursor-pointer">
-                                <p class="flex items-center">
-                                    Kaue Francisquini
+                                    {{ user.name }}
                                     <span class="ml-2 w-2 h-2 bg-blue-500 rounded-full"></span>
                                 </p>
                             </li>
@@ -31,18 +27,16 @@
                     <div class="w-9/12 flex flex-col justify-between">
                         <!-- message -->
                         <div class="w-full p-6 flex flex-col overflow-y-scroll">
-                            <div class="w-full mb-3 text-right">
-                                <p class="inline-block p-2 rounded-md messageFromMe" style="max-width:75%">
-                                    Olá
+                            <div
+                                v-for="message in messages" :key="message.id"
+                                :class="(message.from == $attrs.auth.user.id) ? 'text-right' : ''"
+                                class="w-full mb-3">
+                                <p
+                                    :class="(message.from == $attrs.auth.user.id) ? 'messageFromMe' : 'messageToMe'"
+                                    class="inline-block p-2 rounded-md" style="max-width:75%">
+                                    {{ message.content }}
                                 </p>
-                                <span class="block mt-1 text-xs text-gray-500">21/10/2020 17:44</span>
-                            </div>
-
-                            <div class="w-full mb-3">
-                                <p class="inline-block p-2 rounded-md messageToMe" style="max-width:75%">
-                                    Oi
-                                </p>
-                                <span class="block mt-1 text-xs text-gray-500">21/10/2020 17:44</span>
+                                <span class="block mt-1 text-xs text-gray-500">{{ message.created_at }}</span>
                             </div>
                         </div>
 
@@ -68,5 +62,23 @@
         components: {
             AppLayout,
         },
+        data() {
+            return {
+                users: [],
+                messages: [],
+            }
+        },
+        methods: {
+            loadMessages: function(userId) {
+                axios.get(`api/messages/${userId}`).then(response => {
+                    this.messages = response.data.messages
+                })
+            }
+        },
+        mounted() {
+            axios.get('/api/users').then(response => {
+                this.users = response.data.users
+            })
+        }
     }
 </script>
