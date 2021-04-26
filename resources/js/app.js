@@ -5,6 +5,9 @@ import { createApp, h, ref } from 'vue';
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import moment from 'moment';
+//import store from './store';
+
+//store.dispatch('userStateAction');
 
 moment.locale("pt-br");
 
