@@ -39,4 +39,14 @@ class MessageController extends Controller
             'messages'  => $messages,
         ], Response::HTTP_OK);
     }
+
+    public function store(Request $request)
+    {
+        $message = new Message();
+        $message->from      = auth()->user()->id;
+        $message->to        = $request->to;
+        $message->content   = filter_var($request->content, FILTER_SANITIZE_STRIPPED);
+
+        $message->save();
+    }
 }
