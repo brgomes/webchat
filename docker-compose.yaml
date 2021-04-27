@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  webchat:
+    container_name: webchat-php
+    build: ./
+    working_dir: /var/www
+    ports:
+      - 6001:6001
+    volumes:
+      #- ./docker-compose/php/phpSettings.conf:/usr/local/etc/php-fpm.d/zzz-phpSettings.conf
+      - ./docker-compose/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./docker-compose/php/logs:/var/log
+      - ./:/var/www
+      - ~/.ssh/id_rsa:/user/.ssh/id_rsa
+    networks:
+      - localnet
+
+  nginx:
+    image: nginx:alpine
+    container_name: webchat-nginx
+    ports:
+      - 8001:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+      - ./docker-compose/nginx/logs:/var/log/nginx
+    networks:
+      - localnet
+
+networks:
+  localnet:
+    external: true

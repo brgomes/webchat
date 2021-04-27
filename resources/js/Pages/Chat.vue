@@ -18,7 +18,7 @@
                                 class="p-6 text-lg text-gray-600 leading-7 font-semibold border-b border-gray-200 hover:bg-gray-200 hover:bg-opacity-50 hover:cursor-pointer">
                                 <p class="flex items-center">
                                     {{ user.name }}
-                                    <span class="ml-2 w-2 h-2 bg-blue-500 rounded-full"></span>
+                                    <span v-if="user.notification" class="ml-2 w-2 h-2 bg-blue-500 rounded-full"></span>
                                 </p>
                             </li>
                         </ul>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+    //import Vue from 'vue'
     import AppLayout from '@/Layouts/AppLayout'
 
     export default {
@@ -87,6 +88,16 @@
                     this.messages = response.data.messages
                 })
 
+                const user = this.users.filter((user) => {
+                    if (user.id == userId) {
+                        return user
+                    }
+                })
+
+                if (user) {
+                    //Vue.set(user[0], 'notification', false)
+                }
+
                 this.scrollToBottom()
             },
             sendMessage: async function() {
@@ -111,6 +122,24 @@
         mounted() {
             axios.get('/api/users').then(response => {
                 this.users = response.data.users
+            })
+
+            Echo.private('user.1').listen('.SendMessage', async (e) => {
+                if (this.userActive && this.userActive.id == e.message.from) {
+                    await this.messages.push(e.message)
+                    this.scrollToBottom()
+                } else {
+                    const user = this.users.filter((user) => {
+                        if (user.id == e.message.from) {
+                            return user
+                        }
+                    })
+
+                    if (user) {
+                        //user.notification = true [deveria ser reativo, mas não vai funcionar]
+                        //Vue.set(user[0], 'notification', true)
+                    }
+                }
             })
         }
     }

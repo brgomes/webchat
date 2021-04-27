@@ -1,3 +1,5 @@
+/docker-compose/nginx/logs
+/docker-compose/php/logs
 /node_modules
 /public/hot
 /public/storage
